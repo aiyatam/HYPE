@@ -35,7 +35,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	socket.on('tweet', function(tweet){
 		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
 		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
-			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
+			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text);
 			$('#messages').append($('<li>').text(tweet.text));
 			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
@@ -46,7 +46,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
-	$scope.mapTweet = function(lat, lng) {
+	$scope.mapTweet = function(lat, lng, msg) {
 		console.log("Mapping...!!!");
 		console.log("lat: " + lat);
 		console.log("lng: " + lng);
@@ -66,7 +66,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	    },
 	    properties: {
 	        title: 'Peregrine Espresso',
-	        //description: msg,
+	        description: msg,
 	        // one can customize markers by adding simplestyle properties
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-size': 'large',
