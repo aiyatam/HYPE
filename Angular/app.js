@@ -16,6 +16,18 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 14);
 
 	var socket = io();
+	// Handle sending messages
+	$('#chat-window form').submit(function() {
+		if ($.trim($('#m').val())) {
+			var chatData = { msg: $('#m').val()};
+			var chatJSON = JSON.stringify(chatData);
+		    socket.emit('chat message', chatJSON);
+		    $('#m').val('');
+		}
+	    return false;
+	});
+
+
 	socket.on('log', function(msg) {
 		$('#msgwindow').append('<li class="log">' + msg);
 	});
@@ -24,7 +36,14 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
 		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
 			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
+			$('#messages').append($('<li>').text(tweet.text));
+			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
+	});
+
+	socket.on('chat message', function(msg) {
+		$('#messages').append($('<li>').text(msg));
+		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
 	$scope.mapTweet = function(lat, lng) {
@@ -47,7 +66,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	    },
 	    properties: {
 	        title: 'Peregrine Espresso',
-	        description: msg,
+	        //description: msg,
 	        // one can customize markers by adding simplestyle properties
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-size': 'large',
