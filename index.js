@@ -22,6 +22,7 @@ var twitStream = T.stream('statuses/filter', { locations : [ '-74', '40', '-73',
 function startClientStream() {
   io.on('connection', function(socket) {
     socket.emit('log', 'Connection established.');
+    console.log('Connection established with client.');
   });
 
   console.log('Stream to clients ready.');
