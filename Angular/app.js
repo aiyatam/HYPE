@@ -29,6 +29,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		$('#msgwindow').append('<li class="log">' + msg);
 	});
 
+	//TODO Add marker to map (can call mapTweets function)
 	socket.on('tweet', function(tweet){
 		$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" +
 		tweet.user.screen_name + '): ' + tweet.text + ' | ' +
