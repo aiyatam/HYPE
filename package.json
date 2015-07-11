@@ -1,0 +1,23 @@
+{
+  "name": "AngelHack2015",
+  "version": "1.0.0",
+  "description": "### Coffee meets bagel for roommates ### Online retail store for thrift-shops ### Some type of currency trading thing * Description: Trade with Ripple protocol * APIs:",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aiyatam/AngelHack2015.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aiyatam/AngelHack2015/issues"
+  },
+  "homepage": "https://github.com/aiyatam/AngelHack2015",
+  "dependencies": {
+    "express": "^4.13.1"
+  }
+}
