@@ -24,7 +24,7 @@
     $('#msgwindow').append('<li class="log">' + msg);
   });
   socket.on('tweet', function(tweet){
-    $('#msgwindow').append('<li class="tweet">' + tweet.user.name + "(" +
+    $('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" +
      tweet.user.screen_name + '): ' + tweet.text + ' | ' +
      tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
     console.log(tweet);
