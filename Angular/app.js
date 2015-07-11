@@ -13,7 +13,6 @@ hypeMap.service('hypeMapService', function() {
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	// MAP BOX ISH
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-
 	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 14);
 
 	var socket = io();
@@ -22,14 +21,13 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	});
 
 	socket.on('tweet', function(tweet){
-		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" +
-		//tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
-		$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text);
-		//console.log(tweet);
+		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
+		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
+			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
+		}
 	});
 
-	//Functions
-	$scope.mapTweet = function(lat, lng, msg) {
+	$scope.mapTweet = function(lat, lng) {
 		console.log("Mapping...!!!");
 		console.log("lat: " + lat);
 		console.log("lng: " + lng);
