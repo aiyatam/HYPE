@@ -59,8 +59,8 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	var map = new mapboxgl.Map({
 		container: 'map', // container id
 		style: 'https://www.mapbox.com/mapbox-gl-styles/styles/outdoors-v7.json', //stylesheet location
-		center: [40.7127, -74.0059], // starting position
-		zoom: 12 // starting zoom
+		center: [40.723, -73.98], // starting position
+		zoom: 12.5 // starting zoom
 	});
 
 	//Initial Value
