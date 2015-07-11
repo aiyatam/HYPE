@@ -1,3 +1,4 @@
+var path = require('path');
 var Twit = require('twit');
 var express = require('express');
 var app = express();
@@ -7,6 +8,8 @@ var io = require('socket.io')(http);
 var server_port = 3000;
 var server_ip_address = '0.0.0.0';
 
+app.use(express.static(path.join(__dirname, 'Angular')));
+
 var T = new Twit({
   consumer_key: '***REMOVED***',
   consumer_secret: '***REMOVED***',
@@ -14,7 +17,9 @@ var T = new Twit({
   access_token_secret: '***REMOVED***'
 });
 
-var twitStream = T.stream('statuses/sample');
+// var twitStream = T.stream('statuses/sample');
+var nycCoords = [-74,40,-73,41];
+var twitStream = T.stream('statuses/filter', { locations: nycCoords });
 
 function startClientStream() {
   io.on('connection', function(socket) {
