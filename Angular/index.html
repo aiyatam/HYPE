@@ -3,17 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>HYPE.map</title>
-    <style>
+    <!--style>
 		#map-canvas {
 			width: 500px;
 			height: 400px;
 		}
+		html, body {width:100%; height:100%; padding: 0; margin: 0;}
+    	#cartodb-map { width: 100%; height:100%; background: black;}
+    </style-->
+    <style>
+        #map {
+			width: 1000px;
+			height: 800px;
+		}
     </style>
-</head>
 
 <body ng-controller="hypeMapController as hypeMap">
 	<h1>HYPE.map</h1>
-	<div id="map-canvas"></div>
+
+	<!-- GOOGLE MAPS -->
+	<!--div id="map-canvas"></div-->
+	<!-- CARTODB -->
+	<!--div id="cartodb-map"></div-->
+	<div id='map'></div>
 
     <!-- Libs -->
     <!--script src="scripts/angular.min.js"></script-->
@@ -23,7 +35,21 @@
     <script src="scripts/jquery-2.1.3.min.js"></script>
     <script src="scripts/lodash.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <!--script src="https://maps.googleapis.com/maps/api/js"></script-->
+    <!--script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script-->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.8.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.8.1/mapbox-gl.css' rel='stylesheet' />
     <script type="text/javascript" src="app.js"></script>
+
+	<!--script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
+		var map = new mapboxgl.Map({
+			container: 'map', // container id
+			style: 'https://www.mapbox.com/mapbox-gl-styles/styles/outdoors-v7.json', //stylesheet location
+			center: [40, -74.50], // starting position
+			zoom: 9 // starting zoom
+		});
+	</script-->
+
 </body>
 </html>
