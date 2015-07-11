@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="hypeMap">
 <head>
     <meta charset="UTF-8">
     <title>AngelHack2015</title>
@@ -12,7 +12,7 @@
 </head>
 
 <body>
-	<h1>Hello World!</h1>
+	<h1>HYPEmap</h1>
 	<div id="map-canvas"></div>
     <!-- Libs -->
     <script src="scripts/angular.min.js"></script>
@@ -20,6 +20,8 @@
     <script src="scripts/lodash.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
+
+    <!--Google Map Code-->
     <script>
 		function initialize() {
 			var mapCanvas = document.getElementById('map-canvas');
