@@ -12,9 +12,21 @@ hypeMap.service('hypeMapService', function() {
 // CONTROLLERS
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 14);
+	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 13);
 
 	var socket = io();
+	// Handle sending messages
+	$('#chat-window form').submit(function() {
+		if ($.trim($('#m').val())) {
+			var chatData = { msg: $('#m').val()};
+			var chatJSON = JSON.stringify(chatData);
+		    socket.emit('chat message', chatJSON);
+		    $('#m').val('');
+		}
+	    return false;
+	});
+
+
 	socket.on('log', function(msg) {
 		$('#msgwindow').append('<li class="log">' + msg);
 	});
@@ -23,7 +35,14 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		//$('#msgwindow').append('<li class="tweet">' + "@" + tweet.user.screen_name + ': ' + tweet.text);
 		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
 			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text, tweet.user.screen_name);
+			$('#messages').append($('<li>').text(tweet.text));
+			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
+	});
+
+	socket.on('chat message', function(msg) {
+		$('#messages').append($('<li>').text(msg));
+		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
 	$scope.mapTweet = function(lat, lng, msg, usr) {
@@ -43,7 +62,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        coordinates: [lng, lat]
 	    },
 	    properties: {
-	        description: '<b>' + usr + '</b>' + ': ' + msg,
+	        description: '<b>@' + usr + '</b>' + ': ' + msg,
 	        // one can customize markers by adding simplestyle properties
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'star',

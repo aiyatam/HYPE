@@ -7,12 +7,34 @@
     <style>
     	#map { width: 500px; height: 600px; }
     </style>
+    <link rel="stylesheet" href="styles/bootstrap-slate.css">
 </head>
 
-<body ng-controller="hypeMapController as hypeMap">
-	<h1>HYPE.map</h1>
-	<div id='map'></div>
-	<ul id="msgwindow">
+<body class="container" ng-controller="hypeMapController as hypeMap">
+	<div class="row">
+		<h1>HYPE.map</h1>
+
+		<!-- Map -->
+		<div id='map' class="col-md-8"></div>
+
+		<!-- Where chat window will go -->
+	    <div class="col-md-4">
+	        <!--h2>Chat Window</h2-->
+	        <div id="chat-window" class="panel sticky" style="min-width: 340px;max-width: 340px">
+	            <div class="panel-heading">
+	                <h3 class="panel-title">Tweets</h3>
+	            </div>
+	            <div id="chat-scroll" class="panel-body" style="min-height: 400px;max-height: 400px;overflow-y: scroll;">
+	                <ul id="messages"></ul>
+	            </div>
+	            <div class="panel-footer">
+	                <form action="">
+	                    <input id="m" autocomplete="off" placeholder="!help for available commands"/><button>Send</button>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
   <!-- Libs -->
   <!-- Angular -->
