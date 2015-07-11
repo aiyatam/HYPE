@@ -17,9 +17,7 @@ var T = new Twit({
   access_token_secret: '***REMOVED***'
 });
 
-// var twitStream = T.stream('statuses/sample');
-var nycCoords = [-74,40,-73,41];
-var twitStream = T.stream('statuses/filter', { locations: nycCoords });
+var twitStream = T.stream('statuses/filter', { locations : [ '-74', '40', '-73', '41' ] });
 
 function startClientStream() {
   io.on('connection', function(socket) {
