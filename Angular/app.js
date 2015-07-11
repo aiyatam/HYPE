@@ -1,17 +1,16 @@
 'use strict'
 
 var hypeMap = angular.module('hypeMap', []);
-console.log("test");
+console.log('up');
 
 // SERVICES
 hypeMap.service('hypeMapService', function() {
-	console.log("testService");
+	console.log('test service');
 	//TODO return dummy data (JSON)
 });
 
 // CONTROLLERS
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
-	// MAP BOX ISH
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
 	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 14);
 
@@ -20,17 +19,15 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		$('#msgwindow').append('<li class="log">' + msg);
 	});
 
-	socket.on('tweet', function(tweet){
-		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
+	socket.on('tweet', function(tweet) {
+		//$('#msgwindow').append('<li class="tweet">' + "@" + tweet.user.screen_name + ': ' + tweet.text);
 		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
-			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text);
+			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text, tweet.user.screen_name);
 		}
 	});
 
-	$scope.mapTweet = function(lat, lng, msg) {
-		console.log("Mapping...!!!");
-		console.log("lat: " + lat);
-		console.log("lng: " + lng);
+	$scope.mapTweet = function(lat, lng, msg, usr) {
+		console.log('Mapping (lat, lng): (' + lat + ', ' + lng + ')');
 
 		if (!lat || !lng) {
 			return;
@@ -46,13 +43,12 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        coordinates: [lng, lat]
 	    },
 	    properties: {
-	        title: 'Peregrine Espresso',
-	        description: msg,
+	        description: '<b>' + usr + '</b>' + ': ' + msg,
 	        // one can customize markers by adding simplestyle properties
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-	        'marker-size': 'large',
-	        'marker-color': '#BE9A6B',
-	        'marker-symbol': 'cafe'
+	        'marker-symbol': 'star',
+	        'marker-size': 'small',
+	        'marker-color': '#f44',
 	    }
 		}).addTo(map);
 	}
