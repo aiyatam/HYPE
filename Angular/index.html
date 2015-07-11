@@ -3,55 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>HYPE.map</title>
-    <!--style>
-		#map-canvas {
-			width: 500px;
-			height: 400px;
-		}
-		html, body {width:100%; height:100%; padding: 0; margin: 0;}
-    	#cartodb-map { width: 100%; height:100%; background: black;}
-    </style-->
+
     <style>
-        #map {
-			width: 500px;
-			height: 600px;
-		}
+    	#map {
+				width: 500px;
+				height: 600px;
+			}
     </style>
+</head>
 
 <body ng-controller="hypeMapController as hypeMap">
 	<h1>HYPE.map</h1>
-
-	<!-- GOOGLE MAPS -->
-	<!--div id="map-canvas"></div-->
-	<!-- CARTODB -->
-	<!--div id="cartodb-map"></div-->
 	<div id='map'></div>
 	<ul id="msgwindow">
 
-    <!-- Libs -->
-    <!--script src="scripts/angular.min.js"></script-->
-    <script src="https://code.angularjs.org/1.3.0-rc.2/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.3.0-rc.2/angular-route.min.js"></script>
-    <script src="https://code.angularjs.org/1.3.0-rc.2/angular-resource.min.js"></script>
-    <script src="scripts/jquery-2.1.3.min.js"></script>
-    <script src="scripts/lodash.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <!--script src="https://maps.googleapis.com/maps/api/js"></script-->
-    <!--script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script-->
-<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+  <!-- Libs -->
+  <script src="https://code.angularjs.org/1.3.0-rc.2/angular.min.js"></script>
+  <script src="https://code.angularjs.org/1.3.0-rc.2/angular-route.min.js"></script>
+  <script src="https://code.angularjs.org/1.3.0-rc.2/angular-resource.min.js"></script>
 
-	<!--script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-		var map = new mapboxgl.Map({
-			container: 'map', // container id
-			style: 'https://www.mapbox.com/mapbox-gl-styles/styles/outdoors-v7.json', //stylesheet location
-			center: [40, -74.50], // starting position
-			zoom: 9 // starting zoom
-		});
-	</script-->
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
 
+  <script src="scripts/jquery-2.1.3.min.js"></script>
+  <script src="scripts/lodash.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="app.js"></script>
 </body>
 </html>
