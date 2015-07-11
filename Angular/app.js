@@ -4,13 +4,17 @@ var hypeMap = angular.module('hypeMap', []);
 console.log("test");
 
 // SERVICES
+hypeMap.service('hypeMapService'), function() {
+	console.log("testService");
+});
 
 // CONTROLLERS
 hypeMap.controller('hypeMapController', function($scope) {
 
 	//Initial Value
 	$scope.data = {};
-	console.log("blah blah blah");
+
+	//Functions
 	$scope.mapTweets = function() {
 		console.log("Map all the tweets!!");
 	}
