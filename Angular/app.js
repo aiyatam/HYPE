@@ -23,11 +23,11 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	socket.on('tweet', function(tweet){
 		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
 		if (tweet.geo && tweet.geo.coordinates && tweet.geo.coordinates[0] && tweet.geo.coordinates[1]) {
-			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
+			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1], tweet.text);
 		}
 	});
 
-	$scope.mapTweet = function(lat, lng) {
+	$scope.mapTweet = function(lat, lng, msg) {
 		console.log("Mapping...!!!");
 		console.log("lat: " + lat);
 		console.log("lng: " + lng);
