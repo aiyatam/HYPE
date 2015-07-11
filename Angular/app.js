@@ -43,10 +43,16 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 
 	//TODO Add marker to map (can call mapTweets function)
 	socket.on('tweet', function(tweet){
-		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" +
-		//tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
-		$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
-		//console.log(tweet);
+		if (tweet.geo && tweet.geo.coordinates) {
+			$scope.mapTweet(tweet.geo.coordinates[0], tweet.geo.coordinates[1]);
+		}
+		else if (tweet.place) {
+			var bb = tweet.place.bounding_box.coordinates;
+			$scope.mapTweet(bb[0][0][1], bb[0][1][0]);
+		}
+		else {
+			console.log("no location data");
+		}
 	});
 
 	/*window.setTimeout(function() {
