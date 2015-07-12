@@ -1,0 +1,39 @@
+body { 
+	margin: 0;
+	background: #fff;
+}
+
+div {
+	margin: 0 !important;
+}
+
+#jumbotron {
+	width: 100%;
+	height: 70px;
+	background: url(../images/background_pink.png);
+}
+
+#logo {
+	display: block;
+	padding-top: 3px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 170px;
+}
+
+#map { 
+	width: 700px;
+	height: 600px;
+}
+
+#chat-window {
+	min-width: 340px;
+	max-width: 340px;
+}
+
+#chat-scroll {
+	overflow-y: scroll;
+	min-height: 515px;
+	max-height: 515px;
+}
+
