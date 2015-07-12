@@ -38,7 +38,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
       '<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
       tweet.text_no_links;
     if (tweet.entities.media) {
-      htmlString = '<div class="img-wrap"><span class="img-helper"></span><img src="' + tweet.entities.media[0].media_url + '" height="100"></div>' + htmlString;
+      htmlString = '<div class="img-wrap"><img src="' + tweet.entities.media[0].media_url + '" height="80px"></div><div class="descr">' + htmlString + '</div>';
     }
 
 		$('#messages').append($('<li>').html(htmlString)); // TODO add image from tweet.links
