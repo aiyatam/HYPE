@@ -4,16 +4,16 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var server_port = 3000;
+var server_port = process.env.PORT || 3000;
 var server_ip_address = '0.0.0.0';
 var bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'Angular')));
 
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
-})); 
+}));
 
 var secrets = {
   one : {
@@ -51,7 +51,7 @@ function startsWith(word, pre) {
   return word.indexOf(pre) == 0;
 }
 
-function onTweet(tweet) {  
+function onTweet(tweet) {
   var text = tweet.text;
 
   // ignore direct tweets
@@ -82,7 +82,7 @@ function onTweet(tweet) {
   console.log(linkList);
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
-  io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS 
+  io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS
 }
 
 var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });
