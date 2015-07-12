@@ -44,16 +44,10 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	});
 
 	socket.on('tweet', function(tweet){
-    var coords = getCoordinatesFromTweet(tweet);
-    var lat = coords[0],
-        lon = coords[1];
-
-		if (lat) {
-      // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
-			$scope.mapTweet(lat, lon, tweet.text_no_links, tweet.user.screen_name);
-			$('#messages').append($('<li>').html(tweet.text_no_links + '')); // TODO add image from tweet.links
-			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
-		}
+    // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
+		$scope.mapTweet(tweet.latitude, tweet.longitude, tweet.text_no_links, tweet.user.screen_name);
+		$('#messages').append($('<li>').html(tweet.text_no_links + '')); // TODO add image from tweet.links
+		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
 	// socket.on('chat message', function(msg) {
@@ -96,9 +90,9 @@ function getCoordinatesFromTweet(tweet) {
     lon = tweet.geo.coordinates[1];
   }
   else if (tweet.place) {
-    var bb = tweet.place.bounding_box.coordinates[0];
-    lat = bb[0][1];
-    lon = bb[1][0];
+    // var bb = tweet.place.bounding_box.coordinates[0];
+    // lat = bb[0][1];
+    // lon = bb[1][0];
   }
   return [lat, lon];
 }
