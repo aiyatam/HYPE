@@ -7,7 +7,8 @@
 }
 
 #chat-scroll {
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
 	max-height: 90vh;
 }
 
@@ -22,35 +23,27 @@
 	padding: 5px 20px 15px 20px;
 	font-family: 'Source Sans Pro', sans-serif;
 	border-bottom: solid 1px #c1c1c1;
+	min-height: 80px;
 }
 
 #chat-window #messages li.hypeTweet {
 	color:#ec008b;
-/*    -moz-transition: all 3s ease-in;
-    -webkit-transition: all 3s ease-in;
-    -o-transition: all 3s ease-in;
-    transition: all 3s ease-in;*/
-}
-
-#chat-window #messages li img {
-	float: left;
-	margin-right: 10px;
-	height: 100%;
 }
 
 .img-wrap {
-	height: 100px;
-	width: 100px;
-	white-space: nowrap;
-
-	text-align: center; margin: 1em 0;	
-	float:left;
+	float: left;
+	width: 25%;
+	margin-right: 10px;
 }
 
 .img-wrap img {
-    vertical-align: middle;
-    max-height: 100px;
-    max-width: 100px;
+  vertical-align: middle;
+  max-height: 80px;
+  max-width: 100%;
+}
+
+#chat-window #messages .descr { 
+	float: left;
 }
 
 #chat-window #messages .tweeter {

@@ -1,5 +1,21 @@
 'use strict'
 
+$(document).ready(function() {
+	// Pause scrolling
+	$('#chat-scroll').scroll(function() {
+		console.log('scrolling');
+	});
+});
+
+//Add rotation function to JQuery
+jQuery.fn.rotate = function(degrees) {
+    $(this).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
+                 '-moz-transform' : 'rotate('+ degrees +'deg)',
+                 '-ms-transform' : 'rotate('+ degrees +'deg)',
+                 'transform' : 'rotate('+ degrees +'deg)'});
+};
+var rotation = 0;
+
 var hypeMap = angular.module('hypeMap', []);
 
 
@@ -12,7 +28,15 @@ hypeMap.service('hypeMapService', function() {
 // CONTROLLERS
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-	var map = L.mapbox.map('map', 'mapbox.comic').setView([40.723, -73.98], 13);
+	var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
+
+	//HYPE COMPASS STUFF
+	map.legendControl.addLegend('Hype Compass');
+    $('.map-legends.wax-legends').prepend('<img id="hypecompass" src="images/hypecompass.png" height="100" width="100"/>');
+    $('#hypecompass').click(function() {
+	    rotation += 5;
+	    $(this).rotate(rotation);
+	});
 
 	// SOCKET FUNCTIONS
 	var socket = io();
@@ -34,21 +58,23 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
       '<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
       tweet.text_no_links;
     if (tweet.entities.media) {
-      htmlString = '<div class="img-wrap"><span class="img-helper"></span><img src="' + tweet.entities.media[0].media_url + '" height="100"></div>' + htmlString;
+      htmlString = '<div class="img-wrap"><img src="' + tweet.entities.media[0].media_url + '" height="80px"></div><div class="descr">' + htmlString + '</div>';
     }
 
 		$('#messages').append($('<li class="' + hypeClass + '"">').html(htmlString)); // TODO add image from tweet.links
 		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
+
+
+		//Rotate Hype Compass
+		rotation += 10;
+		$('#hypecompass').rotate(rotation);
 	});
 
 	$scope.mapTweet = function(lat, lon, msg, usr, isHYPE) {
-		//console.log('Mapping (lat, lon): (' + lat + ', ' + lon + ')');
 
 		if (!lat || !lon) {
 			return;
 		}
-
-    var markerColor = '#ec008c';////isHYPE ? '#FFFB00' : '#ec008c';
 
 		L.mapbox.featureLayer({
 	    type: 'Feature',
@@ -62,7 +88,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'mobilephone',
 	        'marker-size': 'small',
-	        'marker-color': markerColor
+	        'marker-color': '#ed1c24'
 	    }
 		}).addTo(map);
 	}
@@ -81,7 +107,7 @@ function updateUserCoordinates(map) {
       postUserCoordinates(lat, lon);
 
       // Update map view
-      map.setView([lat, lon], 13);
+      map.setView([lat, lon], 14);
       L.mapbox.featureLayer({
         type: 'Feature',
         geometry: {
