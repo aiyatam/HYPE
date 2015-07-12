@@ -1,5 +1,12 @@
 'use strict'
 
+$(document).ready(function() {
+	// Pause scrolling
+	$('#chat-scroll').scroll(function() {
+		console.log('scrolling');
+	});
+});
+
 var hypeMap = angular.module('hypeMap', []);
 console.log('up');
 
@@ -12,7 +19,7 @@ hypeMap.service('hypeMapService', function() {
 // CONTROLLERS
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-	var map = L.mapbox.map('map', 'mapbox.comic').setView([40.723, -73.98], 13);
+	var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
 
   // Get user coordinates
   var gl = navigator.geolocation;
@@ -26,7 +33,12 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
       postUserCoordinates(lat, lon);
 
       // Map user coordinates
-      map.setView([lat, lon], 13);
+      map.setView([lat, lon], 14);
+   		//  var star = L.icon({
+			// 		iconUrl: 'images/star.png',
+			// 		iconSize: [22, 22]
+			// 	});
+   		//  L.marker([lat, lon], {icon: star}).addTo(map);
     	L.mapbox.featureLayer({
 		    type: 'Feature',
 		    geometry: {
@@ -103,7 +115,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'mobilephone',
 	        'marker-size': 'small',
-	        'marker-color': '#ec008c'
+	        'marker-color': '#ed1c24'
 	    }
 		}).addTo(map);
 	}
