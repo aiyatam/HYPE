@@ -5,40 +5,37 @@
     <title>HYPE.map</title>
 
     <style>
+    	body { background: #e1e2e1; }
     	#map { width: 750px; height: 600px; }
     </style>
     <link rel="stylesheet" href="styles/app.css" type="text/css">
     <link rel="stylesheet" href="styles/chat.css">
-    <link rel="stylesheet" href="styles/bootstrap-slate.css">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+
 </head>
 
-<body class="container" ng-controller="hypeMapController as hypeMap">
-	<div class="row">
-
-		<div class="jumbotron">
-            <h1>HYPE.map</h1>
-        </div>
-        
-		<!-- Map -->
-		<div id='map' class="col-md-8"></div>
+<body ng-controller="hypeMapController as hypeMap">
+		<h1>HYPE.map</h1>
+    <br>
 
 		<!-- Live tweet window -->
-	    <div class="col-md-4">
-	        <div id="chat-window" class="panel sticky" style="min-width: 340px;max-width: 340px">
-	            <div class="panel-heading">
-	                <h3 class="panel-title">HYPE Console</h3>
-	            </div>
-	            <div id="chat-scroll" class="panel-body" style="min-height: 515px;max-height: 515px;overflow-y: scroll;">
-	                <ul id="messages"></ul>
-	            </div>
-	            <!--div class="panel-footer">
-	                <form action="">
-	                    <input id="m" autocomplete="off" placeholder="Enter message here"/><button>Send</button>
-	                </form>
-	            </div-->
-	        </div>
-	    </div>
-	</div>
+    <div class="four columns">
+      <div id="chat-window" style="min-width: 340px;max-width: 340px">
+				<h3 class="panel-title">HYPE Console</h3>
+        <div id="chat-scroll" style="min-height: 515px;max-height: 515px;overflow-y: scroll;">
+          <ul id="messages"></ul>
+        </div>
+        <!--div class="panel-footer">
+            <form action="">
+                <input id="m" autocomplete="off" placeholder="Enter message here"/><button>Send</button>
+            </form>
+        </div-->
+      </div>
+   	</div>
+
+	  <!-- Map -->
+		<div id='map' class="eight columns"></div>
 
   <!-- Libs -->
   <!-- Angular -->
