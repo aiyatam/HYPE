@@ -119,6 +119,9 @@ function onTweet(tweet) {
     return;
   }
 
+  tweet.latitude = latLon[0];
+  tweet.longitude = latLon[1];
+
  // parse tweets & remove links
   var wordlist = text.split(" ");
   var formattedWords = [];
@@ -143,7 +146,6 @@ function onTweet(tweet) {
 
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
-
   if (tweet.text_no_links.length > 0) {
     io.emit('tweet', tweet);
   }

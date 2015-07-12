@@ -1,12 +1,12 @@
 'use strict'
 
 var hypeMap = angular.module('hypeMap', []);
-console.log('up');
+
 
 // SERVICES
 hypeMap.service('hypeMapService', function() {
-	console.log('test service');
-	//TODO return dummy data (JSON)
+  console.log('test service');
+  //TODO return dummy data (JSON)
 });
 
 // CONTROLLERS
@@ -25,8 +25,11 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	});
 
 	socket.on('tweet', function(tweet){
-		$scope.mapTweet(tweet.latitude, tweet.longitude, tweet.text_no_links, tweet.user.screen_name);
-
+    var isHYPE = tweet.user.followers_count > 5000;
+    if (isHYPE) console.log("HYPE TWEET FROM " + tweet.user.screen_name);
+		$scope.mapTweet(tweet.latitude, tweet.longitude, tweet.text_no_links, tweet.user.screen_name, isHYPE);
+    
+    var hypeClass = isHYPE ? "hypeTweet" : "";
     var htmlString = '<a href="https://twitter.com/' + tweet.user.screen_name + '" target="_blank">' + 
       '<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
       tweet.text_no_links;
@@ -34,16 +37,18 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
       htmlString = '<div class="img-wrap"><span class="img-helper"></span><img src="' + tweet.entities.media[0].media_url + '" height="100"></div>' + htmlString;
     }
 
-		$('#messages').append($('<li>').html(htmlString)); // TODO add image from tweet.links
+		$('#messages').append($('<li class="' + hypeClass + '"">').html(htmlString)); // TODO add image from tweet.links
 		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
-	$scope.mapTweet = function(lat, lon, msg, usr) {
+	$scope.mapTweet = function(lat, lon, msg, usr, isHYPE) {
 		//console.log('Mapping (lat, lon): (' + lat + ', ' + lon + ')');
 
 		if (!lat || !lon) {
 			return;
 		}
+
+    var markerColor = '#ec008c';////isHYPE ? '#FFFB00' : '#ec008c';
 
 		L.mapbox.featureLayer({
 	    type: 'Feature',
@@ -57,7 +62,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'mobilephone',
 	        'marker-size': 'small',
-	        'marker-color': '#ec008c'
+	        'marker-color': markerColor
 	    }
 		}).addTo(map);
 	}

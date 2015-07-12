@@ -24,6 +24,14 @@
 	border-bottom: solid 1px #c1c1c1;
 }
 
+#chat-window #messages li.hypeTweet {
+	color:#ec008b;
+/*    -moz-transition: all 3s ease-in;
+    -webkit-transition: all 3s ease-in;
+    -o-transition: all 3s ease-in;
+    transition: all 3s ease-in;*/
+}
+
 #chat-window #messages li img {
 	float: left;
 	margin-right: 10px;
@@ -38,12 +46,6 @@
 	text-align: center; margin: 1em 0;	
 	float:left;
 }
-
-/*.img-helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}*/
 
 .img-wrap img {
     vertical-align: middle;
