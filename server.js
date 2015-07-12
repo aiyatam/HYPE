@@ -82,7 +82,8 @@ function onTweet(tweet) {
   console.log(linkList);
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
-  io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS 
+  if (tweet.text_no_links.trim().length > 0)
+    io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS 
 }
 
 var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });
