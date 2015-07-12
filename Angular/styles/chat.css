@@ -1,5 +1,14 @@
 #chat-window {
-	margin: 10px;
+	position: fixed;
+	top: 10vh;
+	padding-top: 5px;
+	width: 30%;
+	height: 100%;
+}
+
+#chat-scroll {
+	overflow-y: scroll;
+	max-height: 90vh;
 }
 
 #chat-window form { 
@@ -29,9 +38,16 @@
 }
 
 #chat-window #messages li { 
-	padding: 5px 10px;
-	font-family: 'Lato';
+	padding: 5px 20px 15px 20px;
+	font-family: 'Lato', sans-serif;
+	border-bottom: solid 1px #c1c1c1;
 }
-#chat-window #messages li:nth-child(odd) { 
-	background: #c4ddca;
+
+#chat-window #messages li handle,
+#chat-window #messages li hash, {
+	color: #c4ddca;
+}
+
+#chat-window #messages li:last-child { 
+	border: none;
 }

@@ -8,8 +8,10 @@ div {
 }
 
 #jumbotron {
+	position: fixed;
+	top: 0;
 	width: 100%;
-	height: 70px;
+	height: 10vh;
 	background: url(../images/background_pink.png);
 }
 
@@ -18,22 +20,14 @@ div {
 	padding-top: 3px;
 	margin-left: auto;
 	margin-right: auto;
-	width: 170px;
+	height: 9vh;
 }
 
 #map { 
-	width: 700px;
-	height: 600px;
-}
-
-#chat-window {
-	min-width: 340px;
-	max-width: 340px;
-}
-
-#chat-scroll {
-	overflow-y: scroll;
-	min-height: 515px;
-	max-height: 515px;
+	position: fixed;
+	top: 10vh;
+	right: 0;
+	width: 896px;
+	height: 665px;
 }
 

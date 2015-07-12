@@ -86,7 +86,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        description: '<b>@' + usr + '</b>' + ': ' + msg,
 	        // one can customize markers by adding simplestyle properties
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-	        'marker-symbol': 'star',
+	        'marker-symbol': 'playground',
 	        'marker-size': 'small',
 	        'marker-color': '#ec008c',
 	    }
