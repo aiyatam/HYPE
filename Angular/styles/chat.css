@@ -1,7 +1,7 @@
 #chat-window {
 	position: fixed;
 	top: 10vh;
-	padding-top: 10px;
+	padding-top: 5px;
 	width: 30%;
 	height: 100%;
 }
@@ -28,6 +28,10 @@
 #chat-window #messages li hash {
 	color: #00aeef; /* blue */
 	/*color: #c4ddca; teal */
+}
+
+#chat-window #messages .tweeter {
+	font-weight: bold;
 }
 
 #chat-window #messages li:last-child { 

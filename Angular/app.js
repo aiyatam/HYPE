@@ -60,7 +60,10 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		if (lat) {
       // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
 			$scope.mapTweet(lat, lon, tweet.text_no_links, tweet.user.screen_name);
-			$('#messages').append($('<li>').html(tweet.text_no_links + '')); // TODO add image from tweet.links
+			$('#messages').append($('<li>').html(
+				'<a href="https://twitter.com/' + tweet.user.screen_name + '"' + 
+				'<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
+				tweet.text_no_links + '')); // TODO add image from tweet.links
 			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
 	});
