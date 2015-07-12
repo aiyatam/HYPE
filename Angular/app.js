@@ -14,14 +14,19 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
 	var map = L.mapbox.map('map', 'mapbox.comic').setView([40.723, -73.98], 13);
 
+  // Get user coordinates
   var gl = navigator.geolocation;
   if (gl){
     gl.getCurrentPosition(function (position) {
-      map.setView([position.coords.latitude, position.coords.longitude], 13);
+      var lat = position.coords.latitude,
+          lon = position.coords.longitude;
+      map.setView([lat, lon], 13);
+      postUserCoordinates(lat, lon);
     });
   }
 
 	var socket = io();
+
 	// Handle sending messages
 	$('#chat-window form').submit(function() {
 		if ($.trim($('#m').val())) {
@@ -39,32 +44,22 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	});
 
 	socket.on('tweet', function(tweet){
-    var lat, lon;
-		if (tweet.geo && tweet.geo.coordinates) {
-      lat = tweet.geo.coordinates[0];
-      lon = tweet.geo.coordinates[1];
-		}
-		else if (tweet.place) {
-			var bb = tweet.place.bounding_box.coordinates[0];
-      lat = bb[0][1];
-      lon = bb[1][0];
-		}
-		else {
-			console.log("no location data");
-    }
-		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
+    var coords = getCoordinatesFromTweet(tweet);
+    var lat = coords[0],
+        lon = coords[1];
+
 		if (lat) {
       // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
-			$scope.mapTweet(lat, lon, tweet.text, tweet.user.screen_name);
-			$('#messages').append($('<li>').text(tweet.text));
+			$scope.mapTweet(lat, lon, tweet.text_no_links, tweet.user.screen_name);
+			$('#messages').append($('<li>').html(tweet.text_no_links + '')); // TODO add image from tweet.links
 			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
 	});
 
-	socket.on('chat message', function(msg) {
-		$('#messages').append($('<li>').text(msg));
-		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
-	});
+	// socket.on('chat message', function(msg) {
+	// 	$('#messages').append($('<li>').text(msg));
+	// 	$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
+	// });
 
 	$scope.mapTweet = function(lat, lng, msg, usr) {
 		console.log('Mapping (lat, lng): (' + lat + ', ' + lng + ')');
@@ -93,4 +88,24 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 		}).addTo(map);
 	}
 }]);
+
+function getCoordinatesFromTweet(tweet) {
+  var lat, lon;
+  if (tweet.geo && tweet.geo.coordinates) {
+    lat = tweet.geo.coordinates[0];
+    lon = tweet.geo.coordinates[1];
+  }
+  else if (tweet.place) {
+    var bb = tweet.place.bounding_box.coordinates[0];
+    lat = bb[0][1];
+    lon = bb[1][0];
+  }
+  return [lat, lon];
+}
+function postUserCoordinates(lat, lon) {
+  var http = new XMLHttpRequest();
+  http.open("POST", "/coordinates", true);
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.send("lat="+lat+"&lon="+lon);
+}
 

@@ -14,7 +14,7 @@
 #chat-window form { 
 	background: #000;
 	padding: 3px;
-	width: 100%;	
+	width: 100%;
 }
 
 #chat-window form input { 
@@ -44,7 +44,7 @@
 }
 
 #chat-window #messages li handle,
-#chat-window #messages li hash, {
+#chat-window #messages li hash {
 	color: #00aeef; /* blue */
 	/*color: #c4ddca; teal */
 }
