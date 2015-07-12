@@ -9,11 +9,12 @@ var server_ip_address = '0.0.0.0';
 var bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'Angular')));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+var USER_LAT, USER_LON;
 
 var secrets = {
   one : {
@@ -33,10 +34,10 @@ var secrets = {
 // streams are limited to one client per credentials
 // so use environment variables in deployment if available
 var twitterCreds = {
-  consumer_key: process.env.TCKEY || secrets.one.key,
-  consumer_secret: process.env.TCSECRET || secrets.one.secret,
-  access_token: process.env.TATOKEN || secrets.one.token,
-  access_token_secret: process.env.TATSECRET || secrets.one.token_secret
+  consumer_key: process.env.TCKEY || secrets.two.key,
+  consumer_secret: process.env.TCSECRET || secrets.two.secret,
+  access_token: process.env.TATOKEN || secrets.two.token,
+  access_token_secret: process.env.TATSECRET || secrets.two.token_secret
 };
 var T = new Twit(twitterCreds);
 
@@ -68,15 +69,60 @@ function getLinkTag(link, text) {
   return "<a href=\"" + link + "\" target=\"_blank\">" + text + "</a>";
 }
 
+function getCoordinatesFromTweet(tweet) {
+  var lat, lon;
+  if (tweet.geo && tweet.geo.coordinates) {
+    lat = tweet.geo.coordinates[0];
+    lon = tweet.geo.coordinates[1];
+  }
+  else if (tweet.place) {
+    var bb = tweet.place.bounding_box.coordinates[0];
+    lat = bb[0][1];
+    lon = bb[1][0];
+  }
+  return [lat, lon];
+}
+
+function distance(lat1, lon1, lat2, lon2) {
+  var radlat1 = Math.PI * lat1/180
+  var radlat2 = Math.PI * lat2/180
+  var radlon1 = Math.PI * lon1/180
+  var radlon2 = Math.PI * lon2/180
+  var theta = lon1-lon2
+  var radtheta = Math.PI * theta/180
+  var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  dist = Math.acos(dist)
+  dist = dist * 180/Math.PI
+  dist = dist * 60 * 1.1515
+  return dist * 1.609344;
+}
+
+function tooFarAway(lat, lon) {
+  if (USER_LAT)
+    return distance(lat, lon, USER_LAT, USER_LON) > 12;
+  return false;
+}
+
+function replaceAll(find, replace, str) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
 function onTweet(tweet) {
   var text = tweet.text;
-
+  
   // ignore direct tweets
   if (startsWith(text, "@")) {
     return;
   }
+  var latLon = getCoordinatesFromTweet(tweet);
+  if (!latLon[0] || tooFarAway(latLon[0], latLon[1])) {
+    return;
+  }
 
-  // parse tweets & remove links
+  tweet.latitude = latLon[0];
+  tweet.longitude = latLon[1];
+
+ // parse tweets & remove links
   var wordlist = text.split(" ");
   var formattedWords = [];
   var linkList = [];
@@ -101,7 +147,7 @@ function onTweet(tweet) {
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
 
-  if (tweet.text_no_links.trim().length > 0) {
+  if (tweet.text_no_links.length > 0) {
     io.emit('tweet', tweet);
   }
 }
@@ -135,8 +181,10 @@ app.post('/coordinates', function(req, res) {
   if (lat && lon) {
     twitStream.stop();
     console.log("Starting stream based on user coordinates");
+    USER_LAT = parseFloat(lat);
+    USER_LON = parseFloat(lon);
     twitStream = T.stream('statuses/filter', {
-      locations : [ parseFloat(lon)-0.1, parseFloat(lat)-0.1, parseFloat(lon)+0.1, parseFloat(lat)+0.1 ]
+      locations : [ USER_LON-0.02, USER_LAT-0.02, USER_LON+0.02, USER_LAT+0.02 ]
     });
     twitStream.on('tweet', onTweet);
   }
