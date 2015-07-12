@@ -9,7 +9,6 @@ var server_ip_address = '0.0.0.0';
 var bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'Angular')));
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -100,7 +99,7 @@ function distance(lat1, lon1, lat2, lon2) {
 
 function tooFarAway(lat, lon) {
   if (USER_LAT)
-    return distance(lat, lon, USER_LAT, USER_LON) > 50;
+    return distance(lat, lon, USER_LAT, USER_LON) > 12;
   return false;
 }
 

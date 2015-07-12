@@ -1,5 +1,6 @@
 body { 
 	margin: 0;
+	padding: 0;
 	background: #fff;
 }
 
@@ -14,6 +15,7 @@ a {
 
 #jumbotron {
 	position: fixed;
+	z-index: 1000;
 	top: 0;
 	width: 100%;
 	height: 10vh;
@@ -29,10 +31,10 @@ a {
 }
 
 #map { 
-	position: fixed;
-	top: 10vh;
-	right: 0;
-	width: 896px;
-	height: 665px;
+  position: fixed; 
+  top: 10vh; 
+  bottom: 0;
+  right: 0; 
+  width: 70%;
 }
 
