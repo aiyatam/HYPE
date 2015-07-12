@@ -8,8 +8,9 @@ div {
 	margin: 0 !important;
 }
 
-handle, hash {
+a {
 	color: #00aeef;
+	text-decoration: none;
 }
 
 #jumbotron {
