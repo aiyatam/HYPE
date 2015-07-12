@@ -30,12 +30,15 @@ var secrets = {
 
   }
 }
-var T = new Twit({
-  consumer_key: secrets.two.key,
-  consumer_secret: secrets.two.secret,
-  access_token: secrets.two.token,
-  access_token_secret: secrets.two.token_secret
-});
+// streams are limited to one client per credentials
+// so use environment variables in deployment if available
+var twitterCreds = {
+  consumer_key: process.env.TCKEY || secrets.two.key,
+  consumer_secret: process.env.TCSECRET || secrets.two.secret,
+  access_token: process.env.TATOKEN || secrets.two.token,
+  access_token_secret: process.env.TATSECRET || secrets.two.token_secret
+};
+var T = new Twit(twitterCreds);
 
 function startClientStream() {
   io.on('connection', function(socket) {
@@ -106,6 +109,24 @@ function onTweet(tweet) {
 
 var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });
 twitStream.on('tweet', onTweet);
+twitStream.on('error', function (err) {
+  console.log(err.code + ': ' + err.message);
+});
+twitStream.on('connect', function (req) {
+  console.log('Twitter stream connecting... ' + req)
+  console.log('Using credentials: ' + twitterCreds.access_token);
+});
+twitStream.on('connected', function (resp) {
+  console.log('Twitter stream connected. ' + resp);
+});
+twitStream.on('disconnect', function (msg) {
+  console.log('Twitter stream disconnected. ' + msg);
+});
+twitStream.on('reconnect', function (req, resp, intv) {
+  console.log('Attempting reconnection to twitter stream.' +
+              ' | Req: ' + req + ' | Resp: ' + resp +
+              ' | Intv: ' + intv);
+});
 
 
 // Get user location
