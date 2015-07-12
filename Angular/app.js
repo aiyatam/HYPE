@@ -14,6 +14,13 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
 	var map = L.mapbox.map('map', 'mapbox.comic').setView([40.723, -73.98], 13);
 
+  var gl = navigator.geolocation;
+  if (gl){
+    gl.getCurrentPosition(function (position) {
+      map.setView([position.coords.latitude, position.coords.longitude], 13);
+    });
+  }
+
 	var socket = io();
 	// Handle sending messages
 	$('#chat-window form').submit(function() {
@@ -38,15 +45,16 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
       lon = tweet.geo.coordinates[1];
 		}
 		else if (tweet.place) {
-			var bb = tweet.place.bounding_box.coordinates;
-      lat = bb[0][0][1];
-      lon = bb[0][1][0];
+			var bb = tweet.place.bounding_box.coordinates[0];
+      lat = bb[0][1];
+      lon = bb[1][0];
 		}
 		else {
 			console.log("no location data");
     }
 		//$('#msgwindow').append('<li class="tweet">' + tweet.user.name + " (@" + tweet.user.screen_name + '): ' + tweet.text + ' | ' + tweet.geo.coordinates[0] + ', ' + tweet.geo.coordinates[1]);
 		if (lat) {
+      // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
 			$scope.mapTweet(lat, lon, tweet.text, tweet.user.screen_name);
 			$('#messages').append($('<li>').text(tweet.text));
 			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
