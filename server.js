@@ -79,7 +79,7 @@ function onTweet(tweet) {
       formattedWords.push(word);
     }
   }
-  console.log(linkList);
+  //console.log(linkList);
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
   io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS
@@ -87,6 +87,23 @@ function onTweet(tweet) {
 
 var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });
 twitStream.on('tweet', onTweet);
+twitStream.on('error', function (err) {
+  console.log(err.code + ': ' + err.message);
+});
+twitStream.on('connect', function (req) {
+  console.log('Twitter stream connecting... ' + req);
+});
+twitStream.on('connected', function (resp) {
+  console.log('Twitter stream connected. ' + resp);
+});
+twitStream.on('disconnect', function (msg) {
+  console.log('Twitter stream disconnected. ' + msg);
+});
+twitStream.on('reconnect', function (req, resp, intv) {
+  console.log('Attempting reconnection to twitter stream.' +
+              ' | Req: ' + req + ' | Resp: ' + resp +
+              ' | Intv: ' + intv);
+});
 
 
 // Get user location
