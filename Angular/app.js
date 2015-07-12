@@ -38,6 +38,12 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	    $(this).rotate(rotation);
 	});
 
+
+	setInterval(function() {
+		rotation += Math.random() * 360;
+		$('#hypecompass').rotate(rotation);
+	}, 100);
+
 	// SOCKET FUNCTIONS
 	var socket = io();
 
