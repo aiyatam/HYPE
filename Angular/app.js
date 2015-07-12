@@ -7,6 +7,15 @@ $(document).ready(function() {
 	});
 });
 
+//Add rotation function to JQuery
+jQuery.fn.rotate = function(degrees) {
+    $(this).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
+                 '-moz-transform' : 'rotate('+ degrees +'deg)',
+                 '-ms-transform' : 'rotate('+ degrees +'deg)',
+                 'transform' : 'rotate('+ degrees +'deg)'});
+};
+var rotation = 0;
+
 var hypeMap = angular.module('hypeMap', []);
 console.log('up');
 
@@ -20,6 +29,14 @@ hypeMap.service('hypeMapService', function() {
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
 	var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
+
+	//HYPE COMPASS STUFF
+	map.legendControl.addLegend('Hype Compass');
+    $('.map-legends.wax-legends').prepend('<img id="hypecompass" src="images/hypecompass.png" height="100" width="100"/>');
+    $('#hypecompass').click(function() {
+	    rotation += 5;
+	    $(this).rotate(rotation);
+	});
 
 	// SOCKET FUNCTIONS
 	var socket = io();
@@ -43,6 +60,11 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 
 		$('#messages').append($('<li>').html(htmlString)); // TODO add image from tweet.links
 		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
+
+
+		//Rotate Hype Compass
+		rotation += 10;
+		$('#hypecompass').rotate(rotation);
 	});
 
 	$scope.mapTweet = function(lat, lon, msg, usr) {
