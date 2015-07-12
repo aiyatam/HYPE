@@ -103,9 +103,13 @@ function tooFarAway(lat, lon) {
   return false;
 }
 
+function replaceAll(find, replace, str) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
 function onTweet(tweet) {
   var text = tweet.text;
-
+  
   // ignore direct tweets
   if (startsWith(text, "@")) {
     return;
@@ -115,9 +119,7 @@ function onTweet(tweet) {
     return;
   }
 
-  tweet.latitude = latLon[0];
-  tweet.longitude = latLon[1];
-  // parse tweets & remove links
+ // parse tweets & remove links
   var wordlist = text.split(" ");
   var formattedWords = [];
   var linkList = [];
@@ -142,7 +144,7 @@ function onTweet(tweet) {
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
 
-  if (tweet.text_no_links.trim().length > 0) {
+  if (tweet.text_no_links.length > 0) {
     io.emit('tweet', tweet);
   }
 }

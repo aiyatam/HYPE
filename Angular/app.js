@@ -26,10 +26,15 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 
 	socket.on('tweet', function(tweet){
 		$scope.mapTweet(tweet.latitude, tweet.longitude, tweet.text_no_links, tweet.user.screen_name);
-		$('#messages').append($('<li>').html(
-			'<a href="https://twitter.com/' + tweet.user.screen_name + '" target="_blank">' + 
-			'<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
-			tweet.text_no_links)); // TODO add image from tweet.links
+
+    var htmlString = '<a href="https://twitter.com/' + tweet.user.screen_name + '" target="_blank">' + 
+      '<b class="tweeter">@' + tweet.user.screen_name + '</b></a>: ' + 
+      tweet.text_no_links;
+    if (tweet.entities.media) {
+      htmlString = '<div class="img-wrap"><span class="img-helper"></span><img src="' + tweet.entities.media[0].media_url + '" height="100"></div>' + htmlString;
+    }
+
+		$('#messages').append($('<li>').html(htmlString)); // TODO add image from tweet.links
 		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	});
 
