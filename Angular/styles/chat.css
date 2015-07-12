@@ -24,13 +24,18 @@
 	font-family: 'Source Sans Pro', sans-serif;
 	border-bottom: solid 1px #c1c1c1;
 	min-height: 80px;
+	overflow: auto;
 }
 
 #chat-window #messages li.hypeTweet {
 	color:#ec008b;
 }
-
+/**/
 .img-wrap {
+	float:left;
+	margin-right: 10px !important;
+}
+/*.img-wrap {
 	float: left;
 	width: 25%;
 	margin-right: 10px;
@@ -40,11 +45,11 @@
   vertical-align: middle;
   max-height: 80px;
   max-width: 100%;
-}
+}*/
 
-#chat-window #messages .descr { 
+/*#chat-window #messages .descr { 
 	float: left;
-}
+}*/
 
 #chat-window #messages .tweeter {
 	font-weight: bold;
