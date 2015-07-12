@@ -12,7 +12,7 @@ hypeMap.service('hypeMapService', function() {
 // CONTROLLERS
 hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-	var map = L.mapbox.map('map', 'mapbox.streets').setView([40.723, -73.98], 13);
+	var map = L.mapbox.map('map', 'mapbox.comic').setView([40.723, -73.98], 13);
 
 	var socket = io();
 	// Handle sending messages
@@ -80,7 +80,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'star',
 	        'marker-size': 'small',
-	        'marker-color': '#f44',
+	        'marker-color': '#ec008c',
 	    }
 		}).addTo(map);
 	}

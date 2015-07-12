@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="hypeMap">
 <head>
-    <meta charset="UTF-8">
-    <title>HYPE.map</title>
-
-    <style>
-    	body { background: #e1e2e1; }
-    	#map { width: 750px; height: 600px; }
-    </style>
-    <link rel="stylesheet" href="styles/app.css" type="text/css">
-    <link rel="stylesheet" href="styles/chat.css">
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/skeleton.css">
-
+  <meta charset="UTF-8">
+  <title>HYPE.map</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/chat.css">
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
 </head>
 
 <body ng-controller="hypeMapController as hypeMap">
-		<h1>HYPE.map</h1>
-    <br>
+		<div id="jumbotron"><img id="logo" src="images/logo_white.png"></img></div>
 
 		<!-- Live tweet window -->
     <div class="four columns">
-      <div id="chat-window" style="min-width: 340px;max-width: 340px">
-				<h3 class="panel-title">HYPE Console</h3>
-        <div id="chat-scroll" style="min-height: 515px;max-height: 515px;overflow-y: scroll;">
+      <div id="chat-window">
+        <div id="chat-scroll">
           <ul id="messages"></ul>
         </div>
         <!--div class="panel-footer">
