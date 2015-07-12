@@ -18,26 +18,35 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
   var gl = navigator.geolocation;
   if (gl){
     gl.getCurrentPosition(function (position) {
+    	console.log('user geolocation shared');
       var lat = position.coords.latitude,
           lon = position.coords.longitude;
-      map.setView([lat, lon], 13);
+
+      // Send user coords to server    
       postUserCoordinates(lat, lon);
+
+      // Map user coordinates
+      map.setView([lat, lon], 13);
+    	L.mapbox.featureLayer({
+		    type: 'Feature',
+		    geometry: {
+		        type: 'Point',
+		        // coordinates here are in longitude, latitude order because
+		        // x, y is the standard for GeoJSON and many formats
+		        // coordinates: [-73.98, 40.723]
+		        coordinates: [lon, lat]
+		    },
+		    properties: {
+		        'marker-symbol': 'marker-stroked',
+		        'marker-size': 'small',
+		        'marker-color': '#00aeef'
+		    }
+			}).addTo(map);
     });
   }
 
+	// SOCKET FUNCTIONS
 	var socket = io();
-
-	// Handle sending messages
-	$('#chat-window form').submit(function() {
-		if ($.trim($('#m').val())) {
-			var chatData = { msg: $('#m').val()};
-			var chatJSON = JSON.stringify(chatData);
-		    socket.emit('chat message', chatJSON);
-		    $('#m').val('');
-		}
-	    return false;
-	});
-
 
 	socket.on('log', function(msg) {
 		$('#msgwindow').append('<li class="log">' + msg);
@@ -61,10 +70,21 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	// 	$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 	// });
 
-	$scope.mapTweet = function(lat, lng, msg, usr) {
-		console.log('Mapping (lat, lng): (' + lat + ', ' + lng + ')');
+	// Handle sending messages
+	// $('#chat-window form').submit(function() {
+	// 	if ($.trim($('#m').val())) {
+	// 		var chatData = { msg: $('#m').val()};
+	// 		var chatJSON = JSON.stringify(chatData);
+	// 	    socket.emit('chat message', chatJSON);
+	// 	    $('#m').val('');
+	// 	}
+	//     return false;
+	// });
 
-		if (!lat || !lng) {
+	$scope.mapTweet = function(lat, lon, msg, usr) {
+		console.log('Mapping (lat, lon): (' + lat + ', ' + lon + ')');
+
+		if (!lat || !lon) {
 			return;
 		}
 
@@ -72,10 +92,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	    type: 'Feature',
 	    geometry: {
 	        type: 'Point',
-	        // coordinates here are in longitude, latitude order because
-	        // x, y is the standard for GeoJSON and many formats
-	        // coordinates: [-73.98, 40.723]
-	        coordinates: [lng, lat]
+	        coordinates: [lon, lat]
 	    },
 	    properties: {
 	        description: '<b>@' + usr + '</b>' + ': ' + msg,
@@ -83,7 +100,7 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 	        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
 	        'marker-symbol': 'mobilephone',
 	        'marker-size': 'small',
-	        'marker-color': '#ec008c',
+	        'marker-color': '#ec008c'
 	    }
 		}).addTo(map);
 	}
@@ -102,10 +119,10 @@ function getCoordinatesFromTweet(tweet) {
   }
   return [lat, lon];
 }
+
 function postUserCoordinates(lat, lon) {
   var http = new XMLHttpRequest();
   http.open("POST", "/coordinates", true);
   http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   http.send("lat="+lat+"&lon="+lon);
 }
-
