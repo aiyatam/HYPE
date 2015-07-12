@@ -33,10 +33,10 @@ var secrets = {
 // streams are limited to one client per credentials
 // so use environment variables in deployment if available
 var twitterCreds = {
-  consumer_key: process.env.TCKEY || secrets.two.key,
-  consumer_secret: process.env.TCSECRET || secrets.two.secret,
-  access_token: process.env.TATOKEN || secrets.two.token,
-  access_token_secret: process.env.TATSECRET || secrets.two.token_secret
+  consumer_key: process.env.TCKEY || secrets.one.key,
+  consumer_secret: process.env.TCSECRET || secrets.one.secret,
+  access_token: process.env.TATOKEN || secrets.one.token,
+  access_token_secret: process.env.TATSECRET || secrets.one.token_secret
 };
 var T = new Twit(twitterCreds);
 
@@ -55,7 +55,6 @@ function startsWith(word, pre) {
 }
 
 function createHandleTag(handle) {
-  var split = getSplitKeyword(handle);
   var link = "http://twitter.com/" + handle.substring(1);
   return getLinkTag(link, handle);
 }

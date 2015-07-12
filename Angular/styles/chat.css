@@ -43,11 +43,6 @@
 	border-bottom: solid 1px #c1c1c1;
 }
 
-#chat-window #messages li handle,
-#chat-window #messages li hash {
-	color: #00aeef;
-}
-
 #chat-window #messages li:last-child { 
 	border: none;
 }
