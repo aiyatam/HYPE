@@ -45,7 +45,8 @@
 
 #chat-window #messages li handle,
 #chat-window #messages li hash, {
-	color: #c4ddca;
+	color: #00aeef; /* blue */
+	/*color: #c4ddca; teal */
 }
 
 #chat-window #messages li:last-child { 
