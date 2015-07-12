@@ -31,10 +31,10 @@ var secrets = {
   }
 }
 var T = new Twit({
-  consumer_key: secrets.one.key,
-  consumer_secret: secrets.one.secret,
-  access_token: secrets.one.token,
-  access_token_secret: secrets.one.token_secret
+  consumer_key: secrets.two.key,
+  consumer_secret: secrets.two.secret,
+  access_token: secrets.two.token,
+  access_token_secret: secrets.two.token_secret
 });
 
 function startClientStream() {
@@ -79,10 +79,10 @@ function onTweet(tweet) {
       formattedWords.push(word);
     }
   }
-
+  console.log(linkList);
   tweet.text_no_links = formattedWords.join(" ");
   tweet.links = linkList;
-  io.emit('tweet', tweet);  
+  io.emit('tweet', tweet);  //TODO SOME EMPTY TWEETS 
 }
 
 var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });

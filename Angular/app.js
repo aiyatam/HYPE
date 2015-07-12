@@ -50,16 +50,16 @@ hypeMap.controller('hypeMapController', ['$scope', 'hypeMapService', function($s
 
 		if (lat) {
       // XXX access tweet.text, tweet.tweet_no_links, and tweet.link
-			$scope.mapTweet(lat, lon, tweet.text, tweet.user.screen_name);
-			$('#messages').append($('<li>').html(tweet.text_no_links));
+			$scope.mapTweet(lat, lon, tweet.text_no_links, tweet.user.screen_name);
+			$('#messages').append($('<li>').html(tweet.text_no_links + '')); // TODO add image from tweet.links
 			$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
 		}
 	});
 
-	socket.on('chat message', function(msg) {
-		$('#messages').append($('<li>').text(msg));
-		$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
-	});
+	// socket.on('chat message', function(msg) {
+	// 	$('#messages').append($('<li>').text(msg));
+	// 	$('#chat-scroll').scrollTop($('#chat-scroll')[0].scrollHeight);
+	// });
 
 	$scope.mapTweet = function(lat, lng, msg, usr) {
 		console.log('Mapping (lat, lng): (' + lat + ', ' + lng + ')');
