@@ -5,7 +5,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var server_port = 3000;
+var server_port = process.env.PORT || 3000;
 var server_ip_address = '0.0.0.0';
 
 app.use(express.static(path.join(__dirname, 'Angular')));
