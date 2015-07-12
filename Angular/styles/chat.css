@@ -1,7 +1,7 @@
 #chat-window {
 	position: fixed;
 	top: 10vh;
-	padding-top: 5px;
+	padding-top: 10px;
 	width: 30%;
 	height: 100%;
 }
@@ -9,6 +9,29 @@
 #chat-scroll {
 	overflow-y: scroll;
 	max-height: 90vh;
+}
+
+#chat-window #messages { 
+	list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#chat-window #messages li { 
+	padding: 5px 20px 15px 20px;
+	font-family: 'Source Sans Pro', sans-serif;
+	border-bottom: solid 1px #c1c1c1;
+}
+
+#chat-window #messages li handle,
+#chat-window #messages li hash {
+	color: #00aeef; /* blue */
+	/*color: #c4ddca; teal */
+}
+
+#chat-window #messages li:last-child { 
+	border: none;
 }
 
 #chat-window form { 
@@ -29,26 +52,4 @@
   border: none;
   padding: 10px;
   width: 20%;
-}
-
-#chat-window #messages { 
-	list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-#chat-window #messages li { 
-	padding: 5px 20px 15px 20px;
-	font-family: 'Lato', sans-serif;
-	border-bottom: solid 1px #c1c1c1;
-}
-
-#chat-window #messages li handle,
-#chat-window #messages li hash {
-	color: #00aeef; /* blue */
-	/*color: #c4ddca; teal */
-}
-
-#chat-window #messages li:last-child { 
-	border: none;
 }
