@@ -16,21 +16,7 @@ app.use(bodyParser.urlencoded({
 
 var USER_LAT, USER_LON;
 
-var secrets = {
-  one : {
-    key : '***REMOVED***',
-    secret : '***REMOVED***',
-    token : '***REMOVED***',
-    token_secret : '***REMOVED***'
-  },
-  two : {
-    key : '***REMOVED***',
-    secret : '***REMOVED***',
-    token : '***REMOVED***',
-    token_secret : '***REMOVED***'
-
-  }
-}
+var secrets = require('./secrets.js')
 // streams are limited to one client per credentials
 // so use environment variables in deployment if available
 var twitterCreds = {
@@ -109,7 +95,7 @@ function replaceAll(find, replace, str) {
 
 function onTweet(tweet) {
   var text = tweet.text;
-  
+
   // ignore direct tweets
   if (startsWith(text, "@")) {
     return;
