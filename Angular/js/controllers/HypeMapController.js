@@ -1,5 +1,6 @@
 // CONTROLLERS
-hypeMap.controller('hypeMapController', ['$scope', function($scope) {
+
+angular.module('hypeMap', []).controller('hypeMapController', ['$scope', function($scope) {
 	L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
 	var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
 
