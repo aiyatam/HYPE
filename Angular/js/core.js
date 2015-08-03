@@ -1,5 +1,5 @@
 //Initialize "hypeMap" Angular Application
 (function() {
 	'use strict';
-	angular.module('hypeMap', ['hypeMapController']);
+	angular.module('hypeMap', ['HypeMapController']);
 })();
