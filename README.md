@@ -13,3 +13,5 @@ SET UP
 5. Start the server => run `node server.js`
 6. Go to "http://localhost:3000/" to see app in action
 7. Follow the HYPE and have a good time
+
+![HYPEmap screenshot](Angular/images/HYPEmap-screenshot.png)
