@@ -1,14 +1,15 @@
-# AngelHack2015 Ideas
+HYPEmap - AngelHack2015
+============
 
-### Coffee meets bagel for roommates
-### Online retail store for thrift-shops
-### Some type of currency trading thing
-* Description: Trade with Ripple protocol
-* APIs: 
+### Find The Hype.
 
-### Real-time tweet/instagram map visualization (whatsUP)
-* Description: Web app with a map that displays real time animations for tweets. Tweets can be filtered via hashtags.
-* APIs: Twitter (streaming API), Instagram(?)
-* Technologies: Node.js, Angular.js, Google Maps/some other mapping lib, D3?
-* Pros: Cool demo, people might actually like using it
-* Cons: Technical Challenge to have this run smoothly
+
+SET UP
+============
+1. Install Node.js
+2. Fork/clone this repo
+3. Install required packages => run `npm install` in root of repo
+4. Fill out secrets.js.template accordingly and rename to secrets.js
+5. Start the server => run `node server.js`
+6. Go to "http://localhost:3000/" to see app in action
+7. Follow the HYPE and have a good time
