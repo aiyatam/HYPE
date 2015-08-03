@@ -2,7 +2,7 @@
 	'use strict';
 
 	// Define HypeMapController Function
-	var HypeMapController = function($scope) {
+	var HypeMapController = function($scope, $http) {
 		$scope.rotation = 0;
 
 		L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
@@ -79,11 +79,11 @@
 		};
 
 		var postUserCoordinates = function(lat, lon) {
-			console.log("Posting user coordinates");
-			var http = new XMLHttpRequest();
-			http.open("POST", "/coordinates", true);
-			http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			http.send("lat="+lat+"&lon="+lon);
+			console.log("Posting user coordinates: " + lat + ", " + lon);
+			$http.post("/coordinates", {
+				"lat": lat,
+				"lon": lon
+			}); 
 		}
 
 		// SOCKET FUNCTIONS (move this elsewhere)
@@ -123,7 +123,7 @@
 		});
 	};
 
-	HypeMapController.$inject = ['$scope'];
+	HypeMapController.$inject = ['$scope', '$http'];
 	angular.module('hypeMap', []).controller('hypeMapController', HypeMapController);
 
 })();
