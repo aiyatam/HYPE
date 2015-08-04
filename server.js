@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var Twit = require('twit');
 var express = require('express');
@@ -16,7 +18,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-var secrets = require('./secrets.js')
+var secrets = require('./secrets.js');
 // streams are limited to one client per credentials
 // so use environment variables in deployment if available
 var twitterCreds = {
@@ -37,13 +39,54 @@ function startClientStream() {
 }
 startClientStream();
 
-var twitStream = T.stream('statuses/filter', { locations : [ '-74.04', '40.7', '-74', '40.88' ] });
+function onTweet(tweet) {
+  var text = tweet.text;
+
+  // ignore direct tweets
+  if (util.startsWith(text, '@')) {
+    return;
+  }
+  var latLon = util.getCoordinatesFromTweet(tweet);
+  if (!latLon[0] || util.tooFarAway(latLon[0], latLon[1])) {
+    return;
+  }
+
+  tweet.latitude = latLon[0];
+  tweet.longitude = latLon[1];
+
+ // parse tweets & remove links
+  var wordlist = text.split(' ');
+  var formattedWords = [];
+  var linkList = [];
+
+  for (var w in wordlist) {
+    var word = wordlist[w];
+    if (word.length > 1 && util.startsWith(word, '@')) {
+      formattedWords.push(util.createHandleTag(word));
+    } else if (util.startsWith(word, '#')) {
+      formattedWords.push(util.createHashTag(word));
+    } else if (util.startsWith(word, 'http')) {
+      var l = word.trim();
+      linkList.push(util.getLinkTag(l, l));
+    } else {
+      formattedWords.push(word);
+    }
+  }
+
+  tweet.text_no_links = formattedWords.join(' ');
+  tweet.links = linkList;
+  if (tweet.text_no_links.length > 0) {
+    io.emit('tweet', tweet);
+  }
+}
+
+var twitStream = T.stream('statuses/filter', { locations: [ '-74.04', '40.7', '-74', '40.88' ] });
 twitStream.on('tweet', onTweet);
 twitStream.on('error', function (err) {
   console.log(err.code + ': ' + err.message);
 });
 twitStream.on('connect', function (req) {
-  console.log('Twitter stream connecting... ' + req)
+  console.log('Twitter stream connecting... ' + req);
   console.log('Using credentials: ' + twitterCreds.access_token);
 });
 twitStream.on('connected', function (resp) {
@@ -58,62 +101,18 @@ twitStream.on('reconnect', function (req, resp, intv) {
               ' | Intv: ' + intv);
 });
 
-function onTweet(tweet) {
-  var text = tweet.text;
-
-  // ignore direct tweets
-  if (util.startsWith(text, "@")) {
-    return;
-  }
-  var latLon = util.getCoordinatesFromTweet(tweet);
-  if (!latLon[0] || util.tooFarAway(latLon[0], latLon[1])) {
-    return;
-  }
-
-  tweet.latitude = latLon[0];
-  tweet.longitude = latLon[1];
-
- // parse tweets & remove links
-  var wordlist = text.split(" ");
-  var formattedWords = [];
-  var linkList = [];
-
-  for (var w in wordlist) {
-    var word = wordlist[w];
-    if (word.length > 1 && util.startsWith(word, "@")) {
-      formattedWords.push(util.createHandleTag(word));
-    }
-    else if (util.startsWith(word, "#")) {
-      formattedWords.push(util.createHashTag(word));
-    }
-    else if (util.startsWith(word, "http")) {
-      var l = word.trim();
-      linkList.push(util.getLinkTag(l,l));
-    }
-    else {
-      formattedWords.push(word);
-    }
-  }
-
-  tweet.text_no_links = formattedWords.join(" ");
-  tweet.links = linkList;
-  if (tweet.text_no_links.length > 0) {
-    io.emit('tweet', tweet);
-  }
-}
-
 // Get user location
 app.post('/coordinates', function(req, res) {
-  var lat = req.body.lat,
-      lon = req.body.lon;
+  var lat = req.body.lat;
+  var lon = req.body.lon;
   if (lat && lon) {
     twitStream.stop();
-    console.log("Starting stream based on user coordinates");
+    console.log('Starting stream based on user coordinates');
     var USER_LAT = parseFloat(lat);
     var USER_LON = parseFloat(lon);
     util.setLatLon(parseFloat(lat), parseFloat(lon));
     twitStream = T.stream('statuses/filter', {
-      locations : [ USER_LON-0.02, USER_LAT-0.02, USER_LON+0.02, USER_LAT+0.02 ]
+      locations: [ USER_LON - 0.02, USER_LAT - 0.02, USER_LON + 0.02, USER_LAT + 0.02 ]
     });
     twitStream.on('tweet', onTweet);
   }
