@@ -47,12 +47,12 @@ function onTweet(tweet) {
     return;
   }
   var latLon = util.getCoordinatesFromTweet(tweet);
-  if (!latLon[0] || util.tooFarAway(latLon[0], latLon[1])) {
+  if (!latLon.lat || util.tooFarAway(latLon.lat, latLon.lon)) {
     return;
   }
 
-  tweet.latitude = latLon[0];
-  tweet.longitude = latLon[1];
+  tweet.latitude = latLon.lat;
+  tweet.longitude = latLon.lon;
 
  // parse tweets & remove links
   var wordlist = text.split(' ');
