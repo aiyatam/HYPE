@@ -9,6 +9,7 @@ var io = require('socket.io')(http);
 var server_port = process.env.PORT || 3000;
 var server_ip_address = '0.0.0.0';
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 var util = require('./lib/util');
 
@@ -56,25 +57,25 @@ function onTweet(tweet) {
 
  // parse tweets & remove links
   var wordlist = text.split(' ');
-  var formattedWords = [];
-  var linkList = [];
 
-  for (var w in wordlist) {
-    var word = wordlist[w];
+  var links = _.filter(wordlist, function(word) {
+    return util.startsWith(word, 'http');
+  });
+
+  var words = _.map(_.difference(wordlist, links), function(word) {
     if (word.length > 1 && util.startsWith(word, '@')) {
-      formattedWords.push(util.createHandleTag(word));
-    } else if (util.startsWith(word, '#')) {
-      formattedWords.push(util.createHashTag(word));
-    } else if (util.startsWith(word, 'http')) {
-      var l = word.trim();
-      linkList.push(util.getLinkTag(l, l));
-    } else {
-      formattedWords.push(word);
+      return util.createHandleTag(word);
     }
-  }
+    if (util.startsWith(word, '#')) {
+      return util.createHashTag(word);
+    }
+    return word;
+  });
 
-  tweet.text_no_links = formattedWords.join(' ');
-  tweet.links = linkList;
+  tweet.text_no_links = words.join(' ');
+  tweet.links = _.map(links, function(link) {
+    return util.getLinkTag(link.trim(), link.trim());
+  });
   if (tweet.text_no_links.length > 0) {
     io.emit('tweet', tweet);
   }
