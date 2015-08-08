@@ -80,7 +80,7 @@
 
 		var postUserCoordinates = function(lat, lon) {
 			console.log("Posting user coordinates: " + lat + ", " + lon);
-			$http.post("/coordinates", {
+			$http.post("/api/location/coordinates", {
 				"lat": lat,
 				"lon": lon
 			}); 
