@@ -125,6 +125,6 @@
 	};
 
 	HypeMapController.$inject = ['$scope', '$http'];
-	angular.module('hypeMap', []).controller('hypeMapController', HypeMapController);
+	angular.module('HypeMap', []).controller('HypeMapController', HypeMapController);
 
 })();

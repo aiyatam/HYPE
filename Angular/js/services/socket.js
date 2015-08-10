@@ -1,6 +1,6 @@
 (function() {
 	'use strict';
-
+	console.log('socket code hit!');
 	var SocketService = function($rootScope) {
 		var socket = io();
 		console.log('socket created');
@@ -30,5 +30,5 @@
 	};
 
 	SocketService.$inject = ['$rootScope'];
-	angular.module('socketService', []).factory('Socket', SocketService);
+	angular.module('Socket', []).factory('SocketService', SocketService);
 })();
