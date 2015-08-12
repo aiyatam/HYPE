@@ -2,8 +2,8 @@
 	'use strict';
 	console.log('socket code hit!');
 	var SocketService = function($rootScope) {
+
 		var socket = io();
-		console.log('socket created');
 
 		return {
 			on: function(eventName, callback) {
