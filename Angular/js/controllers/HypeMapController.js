@@ -3,6 +3,19 @@
 
 	// Define HypeMapController Function
 	var HypeMapController = function($scope, $http, socket) {
+
+		// INITIALIZE MAPBOX =======================================================
+		L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
+		
+		var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
+		
+		map.legendControl.addLegend('Hype Compass');
+		$('.map-legends.wax-legends').prepend('<img id="hypecompass" src="images/hypecompass.png" height="100" width="100"/>');
+		$('#hypecompass').click(function() {
+		    $scope.rotation += 5;
+		    $(this).rotate($scope.rotation);
+		});
+
 		
 		// SOCKET FUNCTIONS ========================================================
 		socket.on('connect', function() {
@@ -105,18 +118,7 @@
 		};
 
 		// HYPE COMPASS STUFF ======================================================
-		L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
-		var map = L.mapbox.map('map', 'angelhacksquad.23ef5ec3').setView([40.723, -73.98], 14);
-
 		$scope.rotation = 0;
-		
-		map.legendControl.addLegend('Hype Compass');
-		$('.map-legends.wax-legends').prepend('<img id="hypecompass" src="images/hypecompass.png" height="100" width="100"/>');
-		$('#hypecompass').click(function() {
-		    $scope.rotation += 5;
-		    $(this).rotate($scope.rotation);
-		});
-
 		setInterval(function() {
 			$scope.rotation += Math.random() * 360;
 			$('#hypecompass').rotate($scope.rotation);
