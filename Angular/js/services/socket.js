@@ -1,8 +1,7 @@
 (function() {
 	'use strict';
-	console.log('socket code hit!');
-	var SocketService = function($rootScope) {
 
+	var SocketService = function($rootScope) {
 		var socket = io();
 
 		return {
