@@ -2,7 +2,7 @@
 	'use strict';
 
 	// Define HypeMapController Function
-	var HypeMapController = function($scope, $http, socket) {
+	var HypeMapController = function($scope, $http, socket, hypeCompass) {
 
 		// INITIALIZE MAPBOX =======================================================
 		L.mapbox.accessToken = 'pk.eyJ1IjoiYW5nZWxoYWNrc3F1YWQiLCJhIjoiZDAwYmMwMTcwMzQ0NTdiMmUzMGJmNWZjNmFmOTI2OGYifQ.ifIhIKtHhbExiHiCXqFoIw';
@@ -11,11 +11,6 @@
 		
 		map.legendControl.addLegend('Hype Compass');
 		$('.map-legends.wax-legends').prepend('<img id="hypecompass" src="images/hypecompass.png" height="100" width="100"/>');
-		$('#hypecompass').click(function() {
-		    $scope.rotation += 5;
-		    $(this).rotate($scope.rotation);
-		});
-
 		
 		// SOCKET FUNCTIONS ========================================================
 		socket.on('connect', function() {
@@ -117,15 +112,13 @@
 			}); 
 		};
 
-		// HYPE COMPASS STUFF ======================================================
-		$scope.rotation = 0;
+		// Add random rotation to hype compass
 		setInterval(function() {
-			$scope.rotation += Math.random() * 360;
-			$('#hypecompass').rotate($scope.rotation);
+			hypeCompass.setAngle(Math.random() * 360);
 		}, 100);
 	};
 
-	HypeMapController.$inject = ['$scope', '$http', 'SocketService'];
+	HypeMapController.$inject = ['$scope', '$http', 'SocketService', 'HypeCompassService'];
 	angular.module('HypeMap', []).controller('HypeMapController', HypeMapController);
 
 })();

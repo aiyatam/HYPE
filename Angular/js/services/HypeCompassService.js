@@ -12,14 +12,26 @@
 				return hypeCompassAngle;
 			},
 			setAngle: function(angle) {
-				hypeCompassAngle = hypeCompassAngle % 360;
+				hypeCompassAngle = angle % 360;
+				$('#hypecompass').css({
+					'-webkit-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+					'-moz-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+	                '-ms-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+	                'transform' : 'rotate('+ hypeCompassAngle +'deg)'
+	            });
 			},
 			rotateClockwise: function(angle) {
-				$rootScope.angle = (hypeCompassAngle + angle) % 360;
+				hypeCompassAngle = (hypeCompassAngle + angle) % 360;
+				$('#hypecompass').css({
+					'-webkit-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+					'-moz-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+	                '-ms-transform' : 'rotate('+ hypeCompassAngle +'deg)',
+	                'transform' : 'rotate('+ hypeCompassAngle +'deg)'
+	            });
 			}
 		};
 	};
 
 	HypeCompassService.$inject = ['$rootScope'];
-	angular.module('HypApp', []).factory('HypeCompassService', HypeCompassService);
-}();
+	angular.module('HypeCompass', []).factory('HypeCompassService', HypeCompassService);
+})();
